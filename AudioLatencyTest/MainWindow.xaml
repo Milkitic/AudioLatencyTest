@@ -80,15 +80,31 @@
                     <Run Text="{Binding ElementName=LatencySlider, Path=Value}" /><Run Text=" ms" />
                 </TextBlock>
             </Label>
-            <!--<Label
-                x:Name="LblExclusive"
+            <Button
                 Grid.Row="2"
-                Grid.Column="0"
-                Height="40"
-                HorizontalAlignment="Right"
-                VerticalContentAlignment="Center"
-                Content=""
-                Visibility="Hidden" />-->
+                Grid.Column="2" Margin="0,0,5,0"
+                HorizontalAlignment="Right" x:Name="BtnGayhub"
+                VerticalAlignment="Center"
+                VerticalContentAlignment="Center" Click="BtnGayhub_OnClick"
+                Content="Github">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <TextBlock TextDecorations="Underline">
+                            <ContentPresenter />
+                        </TextBlock>
+                    </ControlTemplate>
+                </Button.Template>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Foreground" Value="Blue" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Foreground" Value="Red" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
             <CheckBox
                 x:Name="CheckExclusive"
                 Grid.Row="2"

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -139,6 +140,11 @@ namespace AudioLatencyTest
             LatencySlider.IsEnabled = newVal.OutputMethod != OutputMethod.Asio;
             CheckExclusive.Visibility =
                 newVal.OutputMethod == OutputMethod.Wasapi ? Visibility.Visible : Visibility.Hidden;
+        }
+
+        private void BtnGayhub_OnClick(object sender, RoutedEventArgs e)
+        {
+            Process.Start(@"https://github.com/Milkitic/AudioLatencyTest");
         }
     }
 }
