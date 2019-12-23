@@ -68,27 +68,41 @@ namespace AudioLatencyTest
             var sb = new List<DeviceInfo>();
             for (int n = -1; n < WaveOut.DeviceCount; n++)
             {
-                var caps = WaveOut.GetCapabilities(n);
-                Output.WriteLine(JsonConvert.SerializeObject(new
+                try
                 {
-                    Index = n,
-                    caps.ProductName
-                }));
+                    var caps = WaveOut.GetCapabilities(n);
+                    Output.WriteLine(JsonConvert.SerializeObject(new
+                    {
+                        Index = n,
+                        caps.ProductName
+                    }));
 
-                sb.Add(new WaveOutInfo(n, caps.ProductName));
+                    sb.Add(new WaveOutInfo(n, caps.ProductName));
+                }
+                catch (Exception ex)
+                {
+                    Output.WriteLine(ex.Message);
+                }
             }
 
             Output.WriteLine();
             foreach (var dev in DirectSoundOut.Devices)
             {
-                Output.WriteLine(JsonConvert.SerializeObject(new
+                try
                 {
-                    dev.Guid,
-                    dev.ModuleName,
-                    dev.Description
-                }));
+                    Output.WriteLine(JsonConvert.SerializeObject(new
+                    {
+                        dev.Guid,
+                        dev.ModuleName,
+                        dev.Description
+                    }));
 
-                sb.Add(new DirectSoundOutInfo(dev.Guid, dev.Description));
+                    sb.Add(new DirectSoundOutInfo(dev.Guid, dev.Description));
+                }
+                catch (Exception ex)
+                {
+                    Output.WriteLine(ex.Message);
+                }
             }
 
             Output.WriteLine();
@@ -117,12 +131,19 @@ namespace AudioLatencyTest
             Output.WriteLine();
             foreach (var asio in AsioOut.GetDriverNames())
             {
-                Output.WriteLine(JsonConvert.SerializeObject(new
+                try
                 {
-                    Name = asio
-                }));
+                    Output.WriteLine(JsonConvert.SerializeObject(new
+                    {
+                        Name = asio
+                    }));
 
-                sb.Add(new AsioOutInfo(asio));
+                    sb.Add(new AsioOutInfo(asio));
+                }
+                catch (Exception ex)
+                {
+                    Output.WriteLine(ex.Message);
+                }
             }
 
             _viewModel.DeviceInfos = new ObservableCollection<DeviceInfo>(sb);
@@ -130,7 +151,8 @@ namespace AudioLatencyTest
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            var t = new TestWindow((DeviceInfo)DeviceInfoCombo.SelectedItem, (int)LatencySlider.Value, CheckExclusive.IsChecked);
+            var t = new TestWindow((DeviceInfo)DeviceInfoCombo.SelectedItem, (int)LatencySlider.Value,
+                CheckExclusive.IsChecked);
             t.ShowDialog();
         }
 
